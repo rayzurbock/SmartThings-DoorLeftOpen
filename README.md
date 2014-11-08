@@ -18,3 +18,7 @@ To view captured photos, Open the SmartThings app on your mobile device, navigat
 8. Open SmartThings mobile app on iPhone or Android and go to the Dashboard.
 9. Tap on the round "+" button and navigate to "My Apps" section by swiping the menu ribbon all the way to the left.
 10. "Door Left Open (with photos)" app should be available in the list of SmartApps that appears below the menu ribbon. Tap it and follow setup instructions.
+
+# Revision History
+*  8/14/2014 Option to take a photo with a ST compatible camera added.
+*  11/8/2014 Prevent false alarms.  Added option to repeat alert if door remains open.
