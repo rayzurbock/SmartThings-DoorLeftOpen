@@ -4,6 +4,9 @@
  *  Photo code added: 8/14/2014 - Brian Lowrance - brian@rayzurbock.com
  *  Prevent false alarms added: 11/8/2014 - Brian Lowrance - brian@rayzurbock.com
  *  Option to repeat alert if door remains open: 11/8/2014 - Brian Lowrance - brian@rayzurbock.com
+ * 
+ * For the latest version visit: https://github.com/rayzurbock/SmartThings-DoorLeftOpen
+ * Version: 1.3.0
  */
 
 definition(
