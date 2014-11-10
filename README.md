@@ -2,7 +2,7 @@ SmartThings-DoorLeftOpen
 ========================
 
 SmartThings Door Left Open Alert with Photo Capture <br />
-Version 1.3.0
+Version 1.3.1
 
 An app for SmartThings that will send a notification (and optionally capture photo's) in the event that a door is left open for longer than your desired threshold time.
 
@@ -23,3 +23,4 @@ To view captured photos, Open the SmartThings app on your mobile device, navigat
 # Revision History
 *  8/14/2014 Option to take a photo with a ST compatible camera added.
 *  11/8/2014 Prevent false alarms.  Added option to repeat alert if door remains open. Added versioning.
+*  11/9/2014 Prevent repeat forever.  Limit repeat messages to 10.
