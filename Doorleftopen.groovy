@@ -1,12 +1,13 @@
 /**
  *  Notify When Left Open and take photos
  *  Based on original code by olson.lukas@gmail.com (2013-06-24)
- *  Photo code added: 8/14/2014 - Brian Lowrance - brian@rayzurbock.com
- *  Prevent false alarms added: 11/8/2014 - Brian Lowrance - brian@rayzurbock.com
- *  Option to repeat alert if door remains open: 11/8/2014 - Brian Lowrance - brian@rayzurbock.com
+ *  8/14/2014 - Brian Lowrance - brian@rayzurbock.com - Photo code added
+ *  11/8/2014 - Brian Lowrance - brian@rayzurbock.com - Prevent false alarms added
+ *  11/8/2014 - Brian Lowrance - brian@rayzurbock.com - Option to repeat alert if door remains open
+ *  11/9/2014 - Brian Lowrance - brian@rayzurbock.com - Modified repeat alert with a max of 10 per occurrance.
  * 
  * For the latest version visit: https://github.com/rayzurbock/SmartThings-DoorLeftOpen
- * Version: 1.3.0
+ * Version: 1.3.1
  */
 
 definition(
@@ -34,6 +35,7 @@ preferences {
 def installed() {
     subscribe(contactSensor, "contact", onContactChange);
     state.count = 0;
+    state.maxrepeat = 10;
     state.alertmsg = "";
 }
 
@@ -41,13 +43,15 @@ def updated() {
     unsubscribe()
     subscribe(contactSensor, "contact", onContactChange);
     state.count = 0;
+    state.maxrepeat = 10;
     state.alertmsg = "";
 }
 
 def onContactChange(evt) {
     log.debug "onContactChange";
     if (evt.value == "open") {
-        state.count = 0
+        state.count = 0;
+        state.maxrepeat = 10;
         runIn(numMinutes * 60, onContactLeftOpenHandler);
     } else {
         unschedule(onContactLeftOpenHandler);
@@ -60,13 +64,16 @@ def onContactLeftOpenHandler() {
         state.count = state.count + 1
         log.debug "Door still open, alert! (Alert #${state.count})"
         if (state.count == 1) {state.alertmsg = messageText}
-        if (state.count > 1) {state.alertmsg = "${messageText}. Repeat #${state.count}."}
+        if (state.count > 1 && state.count < state.maxrepeat) {state.alertmsg = "${messageText}. Repeat #${state.count}."}
+        if (state.count == state.maxrepeat) {state.alertmsg = "${messageText}. Last notice."}
         sendPush(state.alertmsg);
         sendSms(phoneNumber, state.alertmsg);
         if (repeatpush) {
-            log.debug "Rescheduling repeat alert";
-            unschedule();
-            runIn(numMinutes * 60, onContactLeftOpenHandler);
+            if (state.count < state.maxrepeat) {
+                log.debug "Rescheduling repeat alert";
+                unschedule();
+                runIn(numMinutes * 60, onContactLeftOpenHandler);
+            }
         }
         if (camera) {
             camera.take()
