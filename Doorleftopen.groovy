@@ -15,7 +15,7 @@ definition(
     name: "Door left open (with Photo Burst & Hello Home)",
     namespace: "rayzurbock",
     author: "Brian Lowrance",
-    description: "Notify when something is left open and take some photos",
+    description: "Notify when something is left open, optionally: take photos, run hello home action",
     iconUrl: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png",
     iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience@2x.png")
     
