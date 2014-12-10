@@ -9,10 +9,10 @@ http://www.apache.org/licenses/LICENSE-2.0
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 #Description
-SmartThings Door Left Open Alert with Photo Capture <br />
+SmartThings Door Left Open Alert with optional Photo Capture & Hello Home Actions <br />
 Version 1.3.1
 
-An app for SmartThings that will send a notification (and optionally capture photo's) in the event that a door is left open for longer than your desired threshold time.
+An app for SmartThings that will send a notification (and optionally capture photo's / run a hello home action) in the event that a door is left open for longer than your desired threshold time.
 
 To view captured photos, Open the SmartThings app on your mobile device, navigate to your camera and review the carousel at the top *(Note: I have had to force quit the SmartThings app and relaunch it before new photos show up in the carousel)*.
 
@@ -32,3 +32,5 @@ To view captured photos, Open the SmartThings app on your mobile device, navigat
 *  8/14/2014 Option to take a photo with a ST compatible camera added.
 *  11/8/2014 Prevent false alarms.  Added option to repeat alert if door remains open. Added versioning.
 *  11/9/2014 Prevent repeat forever.  Limit repeat messages to 10.
+*  12/4/2014 - (1.3.2-Beta1) - Added Dynamic Menus (Status Page, Configure Page). Added Hello Home action option on first alert and optional Hello Home on clear.
+*  12/9/2014 - (1.3.3) - Adding Dynamic Menus from 1.3.2-Beta + SpeechSynthesis (audio announcements) for Sonos/VLC Thing devices. Added to category: "Safety & Security"
