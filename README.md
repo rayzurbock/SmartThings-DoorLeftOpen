@@ -33,3 +33,4 @@ To view captured photos, Open the SmartThings app on your mobile device, navigat
 *  11/8/2014 Prevent false alarms.  Added option to repeat alert if door remains open. Added versioning.
 *  11/9/2014 Prevent repeat forever.  Limit repeat messages to 10.
 *  12/4/2014 - (1.3.2-Beta1) - Added Dynamic Menus (Status Page, Configure Page). Added Hello Home action option on first alert and optional Hello Home on clear.
+*  12/9/2014 - (1.3.3) - Adding Dynamic Menus from 1.3.2-Beta + SpeechSynthesis (audio announcements) for Sonos/VLC Thing devices. Added to category: "Safety & Security"
