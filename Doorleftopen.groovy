@@ -6,15 +6,17 @@
  *  11/8/2014 - Brian Lowrance - brian@rayzurbock.com - Option to repeat alert if door remains open
  *  11/9/2014 - Brian Lowrance - brian@rayzurbock.com - Modified repeat alert with a max of 10 per occurrance.
  *  12/3/2014 - Brian Lowrance - brian@rayzurbock.com - Added Dynamic Menus (Status Page, Configure Page). Added Hello Home action option on first alert.
+ *  12/9/2014 - Brian Lowrance - brian@rayzurbock.com - Added SpeechSynthesis to speak alert if desired (Sonos or VLC Thing).
  *
  * For the latest version visit: https://github.com/rayzurbock/SmartThings-DoorLeftOpen
- * Version: 1.3.2-beta1
+ * Version: 1.3.3
  */
 
 definition(
-    name: "Door left open (with Photo Burst & Hello Home)",
+    name: "Door left open (with Photo Burst, Hello Home, & Speech)",
     namespace: "rayzurbock",
     author: "Brian Lowrance",
+    category: "Safety & Security",
     description: "Notify when something is left open, optionally: take photos, run hello home action",
     iconUrl: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png",
     iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience@2x.png")
@@ -37,7 +39,13 @@ def pageStatus() {
                 href "pageConfigure", title:"Configure", description:"Tap to open"
                 statusmsg = "Contact Sensor:\n${settings.contactSensor} (Currently ${settings.contactSensor.latestValue('contact')})\n"
                 statusmsg += "Left Open Threshold: ${settings.numMinutes} minute(s)\n\n"
-                statusmsg += "Alert Message:\n${settings.messageText}\n\n"
+                statusmsg += "Alert Message:\n  '${settings.messageText}'\n"
+                if (settings.speechSynth) {
+                    statusmsg += "Announce with these speech synthesis devices:\n"
+                    settings.speechSynth.each() {
+                        statusmsg += "  - ${it.displayName}\n"
+                    }
+                }
                 if (settings.repeatpush)  {
                     statusmsg += "Repeating alerts up to 10 times\n"
                 } else {
@@ -79,6 +87,7 @@ def pageConfigure() {
         }
         section("Alert . . .") {
             input "messageText", "text", title: "Send notification that says", required: true
+            input "speechSynth", "capability.speechSynthesis", title: "Announce with these text-to-speech devices", multiple: true, required: false
             input "phoneNumber", "phone", title: "Send SMS message to", required: false
             input "repeatpush", "bool", title: "Repeat notification until resolved (up to 10x)?", required: true
         }
@@ -127,7 +136,7 @@ def installed() {
 
 def updated() {
     unsubscribe()
-    state.appversion = "1.3.2-beta"
+    state.appversion = "1.3.3"
     subscribe(contactSensor, "contact", onContactChange);
     state.count = 0;
     state.maxrepeat = 10;
@@ -153,7 +162,7 @@ def onContactChange(evt) {
 
 def onContactLeftOpenHandler() {
     log.debug "onContactLeftOpenHandler";
-    if (contactSensor.latestValue == "open") {
+    if (contactSensor.latestValue("contact") == "open") {
         state.count = state.count + 1
         log.debug "Door still open, alert! (Alert #${state.count})"
         if (state.count == 1) {
@@ -168,6 +177,7 @@ def onContactLeftOpenHandler() {
         if (state.count == state.maxrepeat) {state.alertmsg = "${messageText}. Last notice."}
         sendPush(state.alertmsg);
         sendSms(phoneNumber, state.alertmsg);
+        if (settings.speechSynth) {settings.speechSynth*.speak("Door Left Open Alert! ! ! ${state.alertmsg}")}
         if (repeatpush) {
             if (state.count < state.maxrepeat) {
                 log.debug "Rescheduling repeat alert";
@@ -187,4 +197,14 @@ def onContactLeftOpenHandler() {
     } else {
         log.debug "Door closed, cancel alert"
     }
+}
+
+private def notifyVoice(msg) {
+    if (!settings.speechSynth) {
+        return
+    }
+
+    def phrase = null
+    phrase = settings.speechText ?: getStatusPhrase()
+    settings.speechSynth*.speak(phrase)
 }
