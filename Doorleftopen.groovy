@@ -207,12 +207,3 @@ def onContactLeftOpenHandler() {
     }
 }
 
-private def notifyVoice(msg) {
-    if (!settings.speechSynth) {
-        return
-    }
-
-    def phrase = null
-    phrase = settings.speechText ?: getStatusPhrase()
-    settings.speechSynth*.speak(phrase)
-}
