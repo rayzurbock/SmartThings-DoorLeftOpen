@@ -10,7 +10,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 #Description
 SmartThings Door Left Open Alert with optional Photo Capture & Hello Home Actions <br />
-Version 1.3.4
+Version 1.3.5
 
 An app for SmartThings that will send a notification (and optionally capture photo's / run a hello home action) in the event that a door is left open for longer than your desired threshold time.
 
@@ -35,3 +35,4 @@ To view captured photos, Open the SmartThings app on your mobile device, navigat
 *  12/4/2014 - (1.3.2-Beta1) - Added Dynamic Menus (Status Page, Configure Page). Added Hello Home action option on first alert and optional Hello Home on clear.
 *  12/9/2014 - (1.3.3) - Adding Dynamic Menus from 1.3.2-Beta + SpeechSynthesis (audio announcements) for Sonos/VLC Thing devices. Added to category: "Safety & Security"
 *  10/26/2015 - (1.3.4) - Added support for musicPlayer devices (Sonos, VLCThing).  Previously only had support for speechSynthesis (Ubi, VLCThing).  This implementation will interrupt your Sonos if playing audio, play the alert and will not currently resume the audio that was playing.  I will anticipate adding this support at a later date.
+*  10/26/2015 - (1.3.5) - Corrected new musicPlayer selection setting. (Thanks ST_Community: PM4_1613)
